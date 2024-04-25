@@ -28,6 +28,7 @@ desc Student;
 - `set time_zone = 'Asia/Seoul';  (same as KST)`
 - `set global time_zone = 'UTC';    -- root authority`
 
+<hr>
 
 ### Index
 
@@ -37,12 +38,18 @@ desc Student;
 
 ![클러스터 인덱스 vs 비클러스터 인덱스](./docs/Untitled%20(20).png)
 
-1. Cluster Index
-    - prime, 최우선으로 설정
-    - 항상 순서를 유지함
-    - insert, update 작업에 대해 부하가 많다.
-    - insert, update 작업이 많은 경우 pk를 만들지 않음 ⇒ unique key 만듦
-    - Cluster index 효율성을 위해 id가 생김
-    - ORM을 위해 id 생성
-    - 정보를 json 형태로 뒤에 붙여줌
-2. Non-Cluster Index
+1. Cluster Index  
+    - prime, 최우선으로 설정  
+    - 항상 순서를 유지함  
+    - insert, update 작업에 대해 부하가 많다.  
+    - insert, update 작업이 많은 경우 pk를 만들지 않음 ⇒ unique key 만듦  
+    - Cluster index 효율성을 위해 id가 생김  
+    - ORM을 위해 id 생성  
+    - 정보를 json 형태로 뒤에 붙여줌  
+2. Non-Cluster Index  
+
+### PAGE = 일종의 BUFFER  
+
+- BUFFER를 만들어서 streaming 해야한다  
+- 데이터든 index든 page 단위로  
+- flush: Buffer를 비운다, 지금 당장 적용해야하는 경우에 flush 실행해야 한다.
