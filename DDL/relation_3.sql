@@ -27,19 +27,28 @@ select count(*) from Dept;
 select * from Emp where id <= 10;
 
 -- Join 연산
--- 사투리 쓰지마라
+-- 사투리 쓰지마라 (cross join 후 where 절로 filtering 하는 것)
 select Emp.*, Dept.dname
 	from Emp inner join Dept
-    where Dept.id = Emp.dept; Emp.dept = Dept.id 보다 굳, 왜냐면 Dept.id는 클러스터 index Emp.dept는 비클러스터 index
+    where Dept.id = Emp.dept; -- Emp.dept = Dept.id 보다 굳, 왜냐면 Dept.id는 클러스터 index Emp.dept는 비클러스터 index
 -- where은 filtering 하는 거임
 
 -- 아래 sql이 표준어임
 select Emp.*, Dept.dname
-	from Emp inner join Dept on Emp.dept = Dept.id;
+	from Emp inner join Dept on Dept.id = Emp.dept;
     
 explain select Emp.*, Dept.dname
-	from Emp inner join Dept on Emp.dept = Dept.id;
+	from Emp inner join Dept on Dept.id = Emp.dept;
     
+select e.*, d.dname
+	from Dept d inner join Emp e on d.id = e.dept;
 
+select e.*, d.dname
+	from Dept d inner join Emp e on d.id = e.dept
+    where e.id <= 10;    
+
+-- join 하는 애가 where까지 진행
+select e.*, d.dname
+	from Dept d inner join Emp e on d.id = e.dept and e.id <= 10;    
 
 
