@@ -27,3 +27,22 @@ desc Student;
 - `select year(now()), month(now()), day(now()), hour(now()), minute(now()), second(now());`
 - `set time_zone = 'Asia/Seoul';  (same as KST)`
 - `set global time_zone = 'UTC';    -- root authority`
+
+
+### Index
+
+[Clustered vs NonClustered (index 개념)](https://gwang920.github.io/database/clusterednonclustered/)
+
+[데이터베이스 인덱스 (2) - 클러스터형 인덱스와 비클러스터형 인덱스](https://hudi.blog/db-clustered-and-non-clustered-index/)
+
+![클러스터 인덱스 vs 비클러스터 인덱스](./docs/Untitled%20(20).png)
+
+1. Cluster Index
+    - prime, 최우선으로 설정
+    - 항상 순서를 유지함
+    - insert, update 작업에 대해 부하가 많다.
+    - insert, update 작업이 많은 경우 pk를 만들지 않음 ⇒ unique key 만듦
+    - Cluster index 효율성을 위해 id가 생김
+    - ORM을 위해 id 생성
+    - 정보를 json 형태로 뒤에 붙여줌
+2. Non-Cluster Index
