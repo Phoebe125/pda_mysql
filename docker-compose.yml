@@ -6,7 +6,7 @@ services:
     ports:
       - 3307:3306
     environment:
-      MYSQL_ROOT_PASSWORD: mysql_password
+      MYSQL_ROOT_PASSWORD: dltjsals84#
       MYSQL_DATABASE: mydatabase
       TZ: Asia/Seoul
     command:
