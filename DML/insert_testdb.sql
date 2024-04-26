@@ -47,3 +47,8 @@ where id = 3;
 
 select * from Subject where prof is null;
 
+/*
+update Subject s inner join Prof p on s.prof = p.id
+ set s.name = '음악'
+ where p.name = '교수3';
+*/
