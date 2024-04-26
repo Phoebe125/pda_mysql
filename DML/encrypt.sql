@@ -32,6 +32,8 @@ select ascii('A'), CAST(char(65, 66) as char), char(65, 66);
 -- char: 실제 글자수 ==> validation check
 select length('AB한글'), char_length('AB한글'), bit_length('A'), sign(-2);
 
+--  1		2		3
+-- 내권한	  팀권한   others
 select elt(1, 'str1', 'str2', 'str3'), field('s1', 's0', 's1', 's2');
 select find_in_set('s1', 's0,s1,s2'), find_in_set('s3', 's1,s2,s3,s4');
 select instr('str', 't'), locate('s1', 's0s1s2'), insert('12345', 3, 2, '/');
@@ -63,10 +65,10 @@ select datediff('2024-12-25', '2024-04-23'), timediff('12:20:33', '11:30:20');
 select datediff(now(), '2024-01-13');
 
 select adddate(now(), interval 31 day), subdate(now(), interval 31 day);
-select date_add(now(), interval -31 day), adddate(now(), interval -1 month);
+select date_add(now(), interval -31 day), adddate(now(), interval -1 month); -- date_add를 더 많이 씀 (음수도 더하기가 가능함)
 select now(), addtime(now(), '1:1:1'), subtime(now(), '1:1:1');
 
-select DATE_FORMAT(now(), '%Y-%m-%d %h:%i:%s (%w)');
+select DATE_FORMAT(now(), '%Y-%m-%d %h:%i:%s (%w)'); -- 분: m 이 아닌 i임에 유의하기!!
 select DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s (%W)');
 select DATE_FORMAT(now(), '%Y-%m-%d %T %p (%W) %U주 %j일째');
 select DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d');
