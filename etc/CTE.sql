@@ -1,0 +1,38 @@
+-- Common Table Expression
+-- 임시 테이블 사용하는 것처럼 사용
+WITH
+  cte1 AS (SELECT a, b FROM table1),
+  cte2 AS (SELECT c, d FROM table2)
+SELECT b, d FROM cte1 INNER JOIN cte2
+    ON cte1.a = cte2.c;
+    
+-- 재귀함수랑 동일하게 사용됨
+WITH RECURSIVE cte (n) AS
+(
+  SELECT 1     -- initial(root) row set
+  UNION ALL
+  SELECT n + 1 FROM cte WHERE n < 5 -- additional row sets
+)
+SELECT * FROM cte;
+
+-- CTE 예시 테이블
+WITH 
+  AvgSal AS (
+    select d.dname, avg(e.salary) avgsal
+      from Dept d inner join Emp e on d.id = e.dept
+     group by d.id
+  ),
+  MaxAvgSal AS (
+    select * from AvgSal order by avgsal desc limit 1
+  ),
+  MinAvgSal AS (
+    select * from AvgSal order by avgsal limit 1
+  ),
+  SumUp AS (
+    select '최고' as gb, m1.* from MaxAvgSal m1
+    UNION
+    select '최저' as gb, m2.* from MinAvgSal m2
+  )
+select gb, dname, format(avgsal * 10000,0) from SumUp
+UNION
+select '', '차액', format( (max(avgsal) - min(avgsal)) * 10000, 0) from SumUp;
