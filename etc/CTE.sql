@@ -36,3 +36,14 @@ WITH
 select gb, dname, format(avgsal * 10000,0) from SumUp
 UNION
 select '', '차액', format( (max(avgsal) - min(avgsal)) * 10000, 0) from SumUp;
+
+-- 재귀함수를 사용한 피보나치 수열 계산 코드
+WITH RECURSIVE fibonacci (n, fib_n, next_fib_n) AS
+(
+    select 1, 0, 1
+    UNION ALL
+    select n + 1, next_fib_n, fib_n + next_fib_n
+      from fibonacci where n < 10
+)
+select * from fibonacci;
+
