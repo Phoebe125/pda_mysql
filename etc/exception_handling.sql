@@ -1,0 +1,10 @@
+START TRANSACTION
+….
+DECLARE {EXIT | CONTINUE} HANDLER FOR [ SQLEXCEPTION | <code>]
+BEGIN
+   SHOW ERRORS;
+	SELECT '에러발생' as 'Result';
+	ROLLBACK;
+END;
+-- 위에서 CONTINUE 라고 선언했다면, 오류 발생해도 아래 계속 수행!
+COMMIT;
