@@ -41,6 +41,21 @@ DELIMITER ;
 
     
 select * from Dept;
+select * from Emp;
 
 -- 위에 생성한 함수가 잘 작동되는지 확인해보기
 select f_dt(now());
+
+-- 실습: 직원 id를 전달하면, 직원명과 부서를 반환하는 함수를 작성 -> GUI로 함수 작성
+DELIMITER $$
+CREATE DEFINER=`root`@`%` FUNCTION `f_empinfo`(_empId int unsigned) RETURNS varchar(64) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
+BEGIN
+	declare v_ret varchar(64) default 'Not Found';
+	select concat(e.ename, '(', d.dname, ')') into v_ret
+		from Emp e inner join Dept d on e.dept = d.id
+        where e.id = _empId;
+	return v_ret;
+END $$
+DELIMITER ;
+
+select f_empinfo(e.id), e.* from Emp e;

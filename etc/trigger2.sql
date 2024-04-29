@@ -45,6 +45,3 @@ select * from Subject;
 select * from Prof;
 update Subject set prof = 8 where id = 4;
 update Subject set name = '사회과부도' where id = 8;
-
-    
-    
