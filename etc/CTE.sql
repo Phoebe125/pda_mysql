@@ -48,13 +48,13 @@ WITH RECURSIVE fibonacci (n, fib_n, next_fib_n) AS
 select * from fibonacci;
 
 -- 재귀함수의 또다른 예시
-WITH RECURSIVE CteDept(id, pid, pname, dname, d, h) AS 
+WITH RECURSIVE CteDept(id, pid, pname, dname, dx, h) AS 
 (
     select id, pid, cast('' as char(31)), dname, 0, cast(id as char(10)) from Dept where pid = 0
     UNION ALL
-    select d.id, d.pid, cte.dname, d.dname, d + 1, concat(cte.h, '-', d.id) from Dept d inner join CteDept cte on d.pid = cte.id
+    select d.id, d.pid, cte.dname, d.dname, dx + 1, concat(cte.h, '-', d.id) from Dept d inner join CteDept cte on d.pid = cte.id
 )
-select /*+ SET_VAR(cte_max_recursion_depth = 5) */ d, dname, h from CteDept order by h;
+select /*+ SET_VAR(cte_max_recursion_depth = 5) */ dx, dname, h from CteDept order by h;
 
 -- 재귀 실행의 무한루프 오류 방지
 SET SESSION cte_max_recursion_depth = 20;      -- 재귀 실행을 20회로 제한
