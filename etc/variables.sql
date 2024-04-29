@@ -24,3 +24,23 @@ order by id desc;
 -- cf. session variable (unnecessary declaration, but ...)
 -- set @var = 'aaa';
 -- session 뭔가 os thread 개념으로 생각하면 편할 듯
+
+
+select (select @rownum := @rownum + 1) No, s.* # :=은 초기값을 세팅하는 기호
+	from Emp s, (select @rownum := 0) rn;
+
+-- Functions => DELIMITER 신경쓰기 싫으면, workbench gui 로 생성
+-- _ts 처럼 _를 사용하는 것은 관례이다!
+-- output은 session 변수로 받기 때문에, output도 () 안에 @output 이런식으로 받아야함!
+DELIMITER $$
+CREATE Function f_dt(_ts timestamp) RETURNS varchar(31)
+BEGIN
+	RETURN date_format(_ts, '%m/%d %H:%i');
+END $$
+DELIMITER ;
+
+    
+select * from Dept;
+
+-- 위에 생성한 함수가 잘 작동되는지 확인해보기
+select f_dt(now());
