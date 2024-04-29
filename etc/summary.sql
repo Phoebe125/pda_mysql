@@ -21,4 +21,21 @@ select
   from Emp e
  where ename like '박%'
  WINDOW w as (partition by dept order by dept, salary desc);
+ 
+ -- ROLLUP
+ select p.id, d.id, (case when p.id is not null
+            then max(p.dname)
+            else 'Total' end
+        ) as '상위부서', 
+       (case when d.id is not null
+            then max(d.dname)
+            else '- 소계 -' end
+        ) as '부서',
+       format(sum(e.salary), 0) as '급여합'
+  from Dept p
+        inner join Dept d on p.id = d.pid
+        inner join Emp e on d.id = e.dept
+ group by p.id, d.id
+ with rollup;
+
 
