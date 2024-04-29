@@ -38,4 +38,39 @@ select
  group by p.id, d.id
  with rollup;
 
+-- 기타 테이블 요약
+select '평균급여' as '구분',
+   format(avg(case when dept = 3 then salary end) * 10000, 0) '영업1팀',
+   format(avg(case when dept = 4 then salary end) * 10000, 0) '영업2팀',
+   format(avg(case when dept = 5 then salary end) * 10000, 0) '영업3팀',
+   format(avg(case when dept = 6 then salary end) * 10000, 0) '서버팀',
+   format(avg(case when dept = 7 then salary end) * 10000, 0) '클라팀'
+ from Emp
+UNION
+select '급역합계',
+   format(sum(salary * (dept = 3)) * 10000, 0),
+   format(sum(salary * (dept = 4)) * 10000, 0),
+   format(sum(salary * (dept = 5)) * 10000, 0),
+   format(sum(salary * (dept = 6)) * 10000, 0),
+   format(sum(salary * (dept = 7)) * 10000, 0)
+ from Emp
+UNION
+select '최소급여',   
+   format(min(IF(dept = 3, salary, ~0)) * 10000, 0),
+   format(min(IF(dept = 4, salary, ~0)) * 10000, 0),
+   format(min(IF(dept = 5, salary, ~0)) * 10000, 0),
+   format(min(IF(dept = 6, salary, ~0)) * 10000, 0),
+   format(min(IF(dept = 7, salary, ~0)) * 10000, 0)
+ from Emp
+UNION
+select '최대급여',   
+   format(max(IF(dept = 3, salary, 0)) * 10000, 0),
+   format(max(IF(dept = 4, salary, 0)) * 10000, 0),
+   format(max(IF(dept = 5, salary, 0)) * 10000, 0),
+   format(max(IF(dept = 6, salary, 0)) * 10000, 0),
+   format(max(IF(dept = 7, salary, 0)) * 10000, 0)
+ from Emp
+ ;
+
+
 
