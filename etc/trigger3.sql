@@ -44,4 +44,13 @@ create trigger tr_emp_after_update
 select * from Emp;
 update Emp set dept = 5 where id = 3;
 
-    
+-- cf: read lock때문에 update trigger와 lock 걸리는 경우
+-- update trigger를 잠시 꺼두고, read 작업 후에 update할 수 있도록 한다!
+update Emp set dept = (select id from Dept order by rand() limit 1);
+
+-- Union
+select * from Dept where id <4
+union
+select * from Dept where id >=4
+order by id desc;
+-- 이런경우 procedure로 작성해야!
