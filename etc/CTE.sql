@@ -56,4 +56,27 @@ WITH RECURSIVE CteDept(id, pid, pname, dname, d, h) AS
 )
 select /*+ SET_VAR(cte_max_recursion_depth = 5) */ d, dname, h from CteDept order by h;
 
+-- 재귀 실행의 무한루프 오류 방지
+SET SESSION cte_max_recursion_depth = 20;      -- 재귀 실행을 20회로 제한
+SET SESSION cte_max_recursion_depth = 1000000; -- 재귀 실행을 1M로 제한
+SET max_execution_time = 1000;                 -- 최대 실행을 1000번까지로 제한(디폴트 옵션이다)
+
+-- 원래 이코드가
+WITH RECURSIVE cte (n) AS
+(
+  SELECT 1
+  UNION ALL
+  SELECT n + 1 FROM cte
+)
+SELECT * FROM cte;
+
+-- 이렇게 되었습니다~
+WITH RECURSIVE cte (n) AS
+(
+  SELECT 1
+  UNION ALL
+  SELECT n + 1 FROM cte limit 10
+)
+SELECT /*+ SET_VAR(cte_max_recursion_depth = 20) */ * FROM cte;
+
 
